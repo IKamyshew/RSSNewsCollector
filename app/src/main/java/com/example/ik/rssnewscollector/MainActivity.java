@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 
 /**
@@ -16,11 +17,13 @@ public class MainActivity extends Activity {
     EditText title;
     EditText link;
     EditText description;
+    ListView newsItems;
 
     Button b1;
     Button b2;
 
     private String finalUrl = "http://tutorialspoint.com/android/sampleXML.xml";
+    private String androidInsider = "http://androidinsider.ru/feed";
     private HandleXML object;
 
     @Override
@@ -31,13 +34,17 @@ public class MainActivity extends Activity {
         title = (EditText) findViewById(R.id.editText);
         link = (EditText) findViewById(R.id.editText2);
         description = (EditText) findViewById(R.id.editText3);
+        newsItems = (ListView) findViewById(R.id.listview);
+
+        NewsAdapter<NewsItem> itemAdapter = new NewsAdapter<NewsItem>(this, R.layout.activity_main, listData);
+        newsItems.setAdapter(itemAdapter);
 
         b1=(Button)findViewById(R.id.button);
         b2=(Button)findViewById(R.id.button2);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                object = new HandleXML(finalUrl);
+                object = new HandleXML(androidInsider);
                 object.fetchXML();
 
                 while(object.parsingComplete) {
