@@ -6,14 +6,14 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by ik on 02.11.2015.
  */
 public class HandleXML {
-    private String title = "title";
-    private String link = "link";
-    private String description = "description";
+    private ArrayList<NewsItem> items;
+    private NewsItem newItem;
     private String urlString = null;
     private XmlPullParserFactory xmlFactoryObject;
     public volatile boolean parsingComplete = true;
@@ -22,16 +22,8 @@ public class HandleXML {
         urlString = url;
     }
 
-    public String getTitle(){
-        return title;
-    }
-
-    public String getLink(){
-        return link;
-    }
-
-    public String getDescription(){
-        return description;
+    public ArrayList<NewsItem> getItems() {
+        return items;
     }
 
     public void parseXMLAndStoreIt(XmlPullParser myParser) {
@@ -52,14 +44,20 @@ public class HandleXML {
                         break;
 
                     case XmlPullParser.END_TAG:
-                        if(name.equals("title"))
-                            title = text;
+                        if(name.equals("item")) {
+                            if(newItem != null)
+                                items.add(newItem);
+
+                            newItem = new NewsItem();
+                        }
+                        else if(name.equals("title"))
+                            newItem.setTitle(text);
 
                         else if (name.equals("link"))
-                            link = text;
+                            newItem.setLink(text);
 
                         else if (name.equals(("description")))
-                            description = text;
+                            newItem.setDescription(text);
 
                         else{ }
 

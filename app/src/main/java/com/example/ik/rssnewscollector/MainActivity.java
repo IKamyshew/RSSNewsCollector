@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by ik on 30.10.2015.
@@ -18,6 +20,8 @@ public class MainActivity extends Activity {
     EditText link;
     EditText description;
     ListView newsItems;
+
+    ArrayList<NewsItem> items;
 
     Button b1;
     Button b2;
@@ -36,8 +40,7 @@ public class MainActivity extends Activity {
         description = (EditText) findViewById(R.id.editText3);
         newsItems = (ListView) findViewById(R.id.listview);
 
-        NewsAdapter<NewsItem> itemAdapter = new NewsAdapter<NewsItem>(this, R.layout.activity_main, listData);
-        newsItems.setAdapter(itemAdapter);
+        items = new ArrayList<>();
 
         b1=(Button)findViewById(R.id.button);
         b2=(Button)findViewById(R.id.button2);
@@ -48,9 +51,7 @@ public class MainActivity extends Activity {
                 object.fetchXML();
 
                 while(object.parsingComplete) {
-                    title.setText(object.getTitle());
-                    link.setText(object.getLink());
-                    description.setText(object.getDescription());
+                    items.addAll(object.getItems());
                 }
             }
         });
@@ -62,6 +63,9 @@ public class MainActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        NewsAdapter itemAdapter = new NewsAdapter(this,R.layout.activity_main, items);
+        newsItems.setAdapter(itemAdapter);
     }
 }
 

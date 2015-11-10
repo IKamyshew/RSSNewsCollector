@@ -15,6 +15,18 @@
         android:src="@drawable/itc" />
 
     <TextView
+        android:id="@+id/itemSource"
+        android:layout_width="fill_parent"
+        android:layout_height="15dip"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/itemImage"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="Source: itc.ua"
+        android:textSize="12sp" />
+
+    <TextView
         android:id="@+id/itemTitle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -27,15 +39,4 @@
         android:text="Реальный дроптест “небьющегося” смартфона DROID Turbo 2 (Moto X Force)"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/itemSource"
-        android:layout_width="fill_parent"
-        android:layout_height="15dip"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/itemImage"
-        android:ellipsize="marquee"
-        android:singleLine="true"
-        android:text="Source: itc.ua"
-        android:textSize="12sp" />
 </RelativeLayout>
