@@ -58,6 +58,12 @@ public class HandleXML {
                         else if (name.equals(("description")))
                             newItem.setDescription(text);
 
+                        else if (name.equals(("content:encoded")))
+                            newItem.setContent(text);
+
+                        else if (name.equals(("pubDate")))
+                            newItem.setDate(text);
+
                         else{ }
 
                         break;

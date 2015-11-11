@@ -4,9 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-/**
- * Created by ik on 02.11.2015.
- */
 public class SecondActivity extends Activity {
 
     @Override

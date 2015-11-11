@@ -9,6 +9,7 @@ public class NewsItem {
     private String link;
     private String source;
     private String description;
+    private String content;
     private String date;
 
     public String getTitle() {
@@ -41,6 +42,14 @@ public class NewsItem {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getDescription() {

@@ -27,7 +27,7 @@
         android:id="@+id/itemTitle"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:gravity="center_vertical"
+        android:gravity="top"
         android:text="Реальный дроптест “небьющегося” смартфона DROID Turbo 2 (Moto X Force)"
         android:textSize="14sp"
         android:textColor="#000000" />
