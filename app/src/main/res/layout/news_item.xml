@@ -2,19 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="70dp"
-    android:padding="6dip"
     android:background="#FFFFFF"
     android:id="@+id/news_item_layout"
     >
 
     <ImageView
         android:id="@+id/itemImage"
-        android:layout_width="55dp"
+        android:layout_width="85dp"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
-        android:contentDescription="TODO"
         android:src="@drawable/itc" />
 
     <LinearLayout
@@ -29,17 +27,17 @@
         android:layout_height="40dp"
         android:gravity="top"
         android:text="Реальный дроптест “небьющегося” смартфона DROID Turbo 2 (Moto X Force)"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textColor="#000000" />
 
     <TextView
         android:id="@+id/itemSource"
         android:layout_width="fill_parent"
-        android:layout_height="15dp"
+        android:layout_height="16dp"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="Source: itc.ua"
-        android:textSize="11sp" />
+        android:textSize="9sp" />
     </LinearLayout>
 
 </RelativeLayout>

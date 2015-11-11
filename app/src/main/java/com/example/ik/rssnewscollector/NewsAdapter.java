@@ -2,10 +2,6 @@ package com.example.ik.rssnewscollector;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class NewsAdapter extends ArrayAdapter {
@@ -61,32 +53,4 @@ public class NewsAdapter extends ArrayAdapter {
 
         return rowView;
     }
-
-    /*class GetImageFromURL extends AsyncTask<String, Void, Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground (String... urls) {
-            URL url = null;
-            try {
-                url = new URL(urls[0]);
-                Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                return bmp;
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                Log.e("Adapter", "MalformedURLException on \"" + urls[0] + "\"");
-                return null;
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("Adapter", "IOException on \"" + urls[0] + "\"");
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap image) {
-            // TODO: check this.exception
-            // TODO: do something with the feed
-
-        }
-    }*/
 }
