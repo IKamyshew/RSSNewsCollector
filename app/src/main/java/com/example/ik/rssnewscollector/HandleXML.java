@@ -1,5 +1,7 @@
 package com.example.ik.rssnewscollector;
 
+import android.util.Log;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -58,8 +60,15 @@ public class HandleXML {
                         else if (name.equals(("description")))
                             newItem.setDescription(text);
 
-                        else if (name.equals(("content:encoded")))
+                        else if (name.equals(("content:encoded"))) {
                             newItem.setContent(text);
+                            try {
+                                newItem.setImage(text.substring(text.indexOf("http://"), text.indexOf("\">")));
+                            } catch (Exception e) {
+                                Log.e("Parser","Failed to add image link");
+                            }
+                            Log.i("Parser", "image for " + newItem.getTitle() + " added");
+                        }
 
                         else if (name.equals(("pubDate")))
                             newItem.setDate(text);

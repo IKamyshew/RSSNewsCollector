@@ -2,19 +2,19 @@ package com.example.ik.rssnewscollector;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
+    public final static String ITEM_DATA = "ITEM";
 
     ListView newsItems;
     ArrayList<NewsItem> items;
@@ -30,7 +30,7 @@ public class MainActivity extends ActionBarActivity {
 
         newsItems = (ListView) findViewById(R.id.listview);
 
-        items = new ArrayList<>();
+        GetNews();
     }
 
     @Override
@@ -53,6 +53,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void GetNews() {
+        items = new ArrayList<>();
         object = new HandleXML(androidInsider);
         object.fetchXML();
 
@@ -69,12 +70,16 @@ public class MainActivity extends ActionBarActivity {
                                     long arg3)
             {
                 NewsItem item = (NewsItem)adapter.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, "You selected : " + item.getTitle(), Toast.LENGTH_SHORT).show();
 
-                // assuming string and if you want to get the value on click of list item
-                // do what you intend to do on click of listview row
+                ReviewNews(item);
             }
         });
+    }
+
+    private void ReviewNews(NewsItem item) {
+        Intent intent = new Intent(MainActivity.this, ItemActivity.class);
+        intent.putExtra(ITEM_DATA, item.getContent());
+        startActivity(intent);
     }
 
 }
