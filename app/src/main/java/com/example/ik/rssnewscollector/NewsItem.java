@@ -26,6 +26,7 @@ public class NewsItem {
     public void setImage(Image image) {
         this.image = image;
     }
+
     public String getLink() {
         return link;
     }

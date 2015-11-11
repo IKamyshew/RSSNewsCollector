@@ -8,9 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-/**
- * Created by ik on 02.11.2015.
- */
 public class HandleXML {
     private ArrayList<NewsItem> items;
     private NewsItem newItem;
@@ -29,6 +26,8 @@ public class HandleXML {
     public void parseXMLAndStoreIt(XmlPullParser myParser) {
         int event;
         String text = null;
+        items = new ArrayList<>();
+        newItem = new NewsItem();
 
         try {
             event = myParser.getEventType();

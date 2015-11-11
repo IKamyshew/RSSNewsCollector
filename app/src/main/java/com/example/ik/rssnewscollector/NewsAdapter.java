@@ -31,11 +31,17 @@ public class NewsAdapter extends ArrayAdapter {
             itemImage.setImageResource(R.drawable.itc);
 
         TextView title = (TextView) rowView.findViewById(R.id.itemTitle);
-        title.setText(data.get(position).getTitle());
+        String tit = data.get(position).getTitle();
+        if (data.get(position).getTitle() == null)
+            title.setText("Empty title");
+        else
+            title.setText(data.get(position).getTitle());
 
         TextView source = (TextView) rowView.findViewById(R.id.itemSource);
-
-        source.setText(data.get(position).getSource());
+        if (data.get(position).getLink() == null)
+            source.setText("androidinsider.ru");
+        else
+            source.setText(data.get(position).getLink());
 
         return rowView;
     }
