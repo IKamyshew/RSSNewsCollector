@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="70dp"
+    android:layout_height="90dp"
     android:background="#FFFFFF"
     android:id="@+id/news_item_layout"
     >
 
     <ImageView
         android:id="@+id/itemImage"
-        android:layout_width="85dp"
-        android:layout_height="55dp"
+        android:layout_width="110dp"
+        android:layout_height="75dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
@@ -17,14 +17,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="75dp"
         android:layout_toRightOf="@id/itemImage"
         android:orientation="vertical">
 
     <TextView
         android:id="@+id/itemTitle"
         android:layout_width="fill_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:gravity="top"
         android:text="Реальный дроптест “небьющегося” смартфона DROID Turbo 2 (Moto X Force)"
         android:textSize="12sp"

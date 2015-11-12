@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public final static String ITEM_DATA = "ITEM";
+    public final static String STATE_NEWS = "STATE_NEWS";
 
     ListView newsItems;
     ArrayList<NewsItem> items;
@@ -27,10 +28,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         newsItems = (ListView) findViewById(R.id.listview);
 
-        GetNews();
+        if (savedInstanceState != null){
+            items = savedInstanceState.getParcelableArrayList(STATE_NEWS);
+            GetNews();
+        } else {
+            ParseXML();
+            GetNews();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(STATE_NEWS, items);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -45,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_refresh:
+                ParseXML();
                 GetNews();
                 return true;
             default:
@@ -53,14 +66,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void GetNews() {
-        items = new ArrayList<>();
-        object = new HandleXML(androidInsider);
-        object.fetchXML();
-
-        while(object.parsingComplete) {
-            //do nothing
-        }
-        items.addAll(object.getItems());
         NewsAdapter itemAdapter = new NewsAdapter(MainActivity.this,R.layout.activity_main, items);
         newsItems.setAdapter(itemAdapter);
         newsItems.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -74,6 +79,17 @@ public class MainActivity extends AppCompatActivity {
                 ReviewNews(item);
             }
         });
+    }
+
+    private void ParseXML() {
+        items = new ArrayList<>();
+        object = new HandleXML(androidInsider);
+        object.fetchXML();
+
+        while(object.parsingComplete) {
+            //do nothing
+        }
+        items.addAll(object.getItems());
     }
 
     private void ReviewNews(NewsItem item) {
