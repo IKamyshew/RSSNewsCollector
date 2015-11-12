@@ -11,6 +11,7 @@ public class SecondActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second_activity);
         WebView w1 = (WebView)findViewById(R.id.webView);
-        w1.loadUrl("http://tutorialspoint.com/android/sampleXML.xml");
+        String link = getIntent().getStringExtra(MainActivity.ITEM_DATA);
+        w1.loadUrl(link);
     }
 }

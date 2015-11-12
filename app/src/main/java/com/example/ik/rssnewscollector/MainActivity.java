@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ReviewNews(NewsItem item) {
-        Intent intent = new Intent(MainActivity.this, ItemActivity.class);
-        intent.putExtra(ITEM_DATA, item.getContent());
+        Intent intent = new Intent(MainActivity.this, ItemActivity.class); //SecondActivity.class = webView
+        intent.putExtra(ITEM_DATA, item.getContent()); // item.getLink() - for SecondActivity.class
         startActivity(intent);
     }
 

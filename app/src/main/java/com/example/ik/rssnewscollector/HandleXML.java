@@ -14,6 +14,7 @@ public class HandleXML {
     private ArrayList<NewsItem> items;
     private NewsItem newItem;
     private String urlString = null;
+    private String source;
     private XmlPullParserFactory xmlFactoryObject;
     public volatile boolean parsingComplete = true;
 
@@ -50,8 +51,13 @@ public class HandleXML {
                                 items.add(newItem);
 
                             newItem = new NewsItem();
+                            if (source != null)
+                                newItem.setSource(source);
                         }
                         else if(name.equals("title"))
+                            if (source == null)
+                                source = text;
+                            else
                             newItem.setTitle(text);
 
                         else if (name.equals("link"))
@@ -61,6 +67,7 @@ public class HandleXML {
                             newItem.setDescription(text);
 
                         else if (name.equals(("content:encoded"))) {
+                            GetImagesAndVideoFromContent(text);
                             newItem.setContent(text);
                             try {
                                 newItem.setImage(text.substring(text.indexOf("http://"), text.indexOf("\">")));
@@ -87,6 +94,24 @@ public class HandleXML {
         } catch (Exception e) {
                 e.printStackTrace();
         }
+
+    }
+
+    // Говнокод
+    private void GetImagesAndVideoFromContent(String content) {
+        String[] strings = new String[99];
+        strings = content.split("<p><a href=\"");
+        String[] stringsVideo = new String[99];
+        stringsVideo = content.split("<p><iframe");
+        if(strings != null)
+            for(int i = 1; i <= strings.length - 1; i++) {
+                int endIndex = strings[i].indexOf("</p>") + "</p>".length();
+                Log.i("Parser", "<p><a href=\"" + strings[i].substring(0, endIndex));
+            }
+        if(stringsVideo != null)
+            for(int i = 1; i <= stringsVideo.length - 1; i++) {
+                Log.i("Parser", "<p><iframe" + stringsVideo[i].substring(0, stringsVideo[i].indexOf("</iframe></p>") + "</iframe></p>".length()));
+            }
     }
 
     public void fetchXML() {
@@ -125,3 +150,37 @@ public class HandleXML {
     }
 
 }
+
+/*
+int startIndex = text.indexOf("<p><a http://");
+                            while (startIndex >= 0) {
+                                System.out.println(startIndex);
+                                startIndex = text.indexOf("<p><a http://", startIndex + 1);
+                            }
+                            int endIndex = text.indexOf("\"a>");
+                            while (endIndex >= 0) {
+                                System.out.println(endIndex);
+                                endIndex = text.indexOf("\"a>", endIndex + 1);
+                            }
+
+
+public void setDescription(String description) {
+ this.description = description;
+
+ //parse description for any image or video links
+ if (description.contains("<img ")){
+  String img  = description.substring(description.indexOf("<img "));
+  String cleanUp = img.substring(0, img.indexOf(">")+1);
+  img = img.substring(img.indexOf("src=") + 5);
+  int indexOf = img.indexOf("'");
+  if (indexOf==-1){
+   indexOf = img.indexOf("\"");
+  }
+  img = img.substring(0, indexOf);
+
+  setImgLink(img);
+
+  this.description = this.description.replace(cleanUp, "");
+ }
+}
+ */

@@ -16,41 +16,56 @@ public class NewsAdapter extends ArrayAdapter {
     private Activity myContext;
     private ArrayList<NewsItem> data;
 
+    static class ViewHolder {
+        ImageView titleImage;
+        TextView title;
+        TextView source;
+    }
+
     public NewsAdapter(Context context, int textViewResourceId,ArrayList<NewsItem> objects) {
         super(context, textViewResourceId, objects);
-        // TODO Auto-generated constructor stub
         myContext = (Activity) context;
         data = objects;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = myContext.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.news_item, null);
+        ViewHolder viewHolder;
 
-        ImageView itemImage = (ImageView) rowView.findViewById(R.id.itemImage);
+        if(convertView == null) {
+            LayoutInflater inflater = myContext.getLayoutInflater();
+            convertView = inflater.inflate(R.layout.news_item, null);
+
+            viewHolder = new ViewHolder();
+
+            viewHolder.titleImage = (ImageView) convertView.findViewById(R.id.itemImage);
+            viewHolder.title = (TextView) convertView.findViewById(R.id.itemTitle);
+            viewHolder.source = (TextView) convertView.findViewById(R.id.itemSource);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
         if (data.get(position).getImage() == null)
-            itemImage.setImageResource(R.drawable.itc);
+            viewHolder.titleImage.setImageResource(R.drawable.android_insider);
         else
-            Ion.with(itemImage)
-                    .placeholder(R.drawable.itc)
-                    .error(R.drawable.itc)
-                    //.animateLoad(spinAnimation)
-                    //.animateIn(fadeInAnimation)
+            Ion.with(viewHolder.titleImage)
+                    .placeholder(R.drawable.android_insider)
+                    .error(R.drawable.android_insider)
+                            //.animateLoad(spinAnimation)
+                            //.animateIn(fadeInAnimation)
                     .load(data.get(position).getImage());
 
-        TextView title = (TextView) rowView.findViewById(R.id.itemTitle);
-        String tit = data.get(position).getTitle();
         if (data.get(position).getTitle() == null)
-            title.setText("Empty title");
+            viewHolder.title.setText("Empty title");
         else
-            title.setText(data.get(position).getTitle());
+            viewHolder.title.setText(data.get(position).getTitle());
 
-        TextView source = (TextView) rowView.findViewById(R.id.itemSource);
         if (data.get(position).getLink() == null)
-            source.setText("androidinsider.ru");
+            viewHolder.source.setText("androidinsider.ru");
         else
-            source.setText(data.get(position).getLink());
+            viewHolder.source.setText(data.get(position).getSource());
 
-        return rowView;
+        return convertView;
     }
 }

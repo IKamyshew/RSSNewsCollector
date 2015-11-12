@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ public class ItemActivity extends AppCompatActivity {
 
         contentText = (TextView) findViewById(R.id.itemContent);
         contentText.setText(Html.fromHtml(item));
+        contentText.setMovementMethod(new ScrollingMovementMethod());
 
     }
 
