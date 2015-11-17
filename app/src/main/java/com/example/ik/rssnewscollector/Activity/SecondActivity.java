@@ -1,8 +1,11 @@
-package com.example.ik.rssnewscollector;
+package com.example.ik.rssnewscollector.Activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import com.example.ik.rssnewscollector.Activity.MainActivity;
+import com.example.ik.rssnewscollector.R;
 
 public class SecondActivity extends Activity {
 

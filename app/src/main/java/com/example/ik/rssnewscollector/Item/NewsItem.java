@@ -1,18 +1,22 @@
-package com.example.ik.rssnewscollector;
+package com.example.ik.rssnewscollector.Item;
 
-import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
-public class NewsItem implements Parcelable {
+public class NewsItem implements Comparable<NewsItem>, Copyable<NewsItem>, Parcelable {
     static String LOG_TAG = "NewsItem";
 
     private String title;
     private String image;
-    private String link;
+    private URL link;
     private String source;
     private String description;
     private String content;
@@ -38,11 +42,16 @@ public class NewsItem implements Parcelable {
     }
 
     public String getLink() {
-        return link;
+        return link.toExternalForm();
     }
 
     public void setLink(String link) {
-        this.link = link;
+        try {
+            this.link = new URL(link);
+        } catch (MalformedURLException e) {
+            Log.e("MyLogs","Failed to add link");
+            e.printStackTrace();
+        }
     }
 
     public String getSource() {
@@ -100,7 +109,7 @@ public class NewsItem implements Parcelable {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(title);
         parcel.writeString(image);
-        parcel.writeString(link);
+        parcel.writeString(link.toExternalForm());
         parcel.writeString(source);
         parcel.writeString(description);
         parcel.writeString(content);
@@ -128,11 +137,57 @@ public class NewsItem implements Parcelable {
         Log.d(LOG_TAG, "конструктор, считывающий данные из Parcel");
         title = parcel.readString() == null? null : parcel.readString();
         image = parcel.readString() == null? null : parcel.readString();
-        link = parcel.readString() == null? null : parcel.readString();
+        try {
+            link = parcel.readString() == null?
+                    null :
+                    new URL(parcel.readString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         source = parcel.readString() == null? null : parcel.readString();
         description = parcel.readString() == null? null : parcel.readString();
         content = parcel.readString() == null? null : parcel.readString();
         date = parcel.readString() == null? null : parcel.readString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+    // sort by date
+    public int compareTo(NewsItem another) {
+        if (another == null) return 1;
+        return another.date.compareTo(date);
+    }
+
+    @Override
+    public NewsItem copy() {
+        NewsItem copy = createForCopy();
+        copyTo(copy);
+        return copy;
+    }
+
+    @Override
+    public NewsItem createForCopy() {
+        return new NewsItem();
+    }
+
+    @Override
+    public void copyTo(NewsItem dest) {
+        if (content != null) {
+            Document document = Jsoup.parse(content);
+            dest.setImage(document.select("img").first().attr("src"));
+        } else if (description != null) {
+            Document document = Jsoup.parse(description);
+            dest.setImage(document.select("img").first().attr("src"));
+        }
+
+        dest.setTitle(title);
+        dest.setLink(link.toExternalForm());
+        dest.setSource(source);
+        dest.setDescription(description);
+        dest.setContent(content);
+        dest.setDate(date);
     }
 
 }

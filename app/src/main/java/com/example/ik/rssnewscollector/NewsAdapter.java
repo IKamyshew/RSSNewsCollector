@@ -9,12 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ik.rssnewscollector.Item.NewsItem;
 import com.koushikdutta.ion.Ion;
-import java.util.ArrayList;
+import java.util.List;
 
 public class NewsAdapter extends ArrayAdapter {
     private Activity myContext;
-    private ArrayList<NewsItem> data;
+    private List<NewsItem> data;
 
     static class ViewHolder {
         ImageView titleImage;
@@ -22,7 +23,7 @@ public class NewsAdapter extends ArrayAdapter {
         TextView source;
     }
 
-    public NewsAdapter(Context context, int textViewResourceId,ArrayList<NewsItem> objects) {
+    public NewsAdapter(Context context, int textViewResourceId,List<NewsItem> objects) {
         super(context, textViewResourceId, objects);
         myContext = (Activity) context;
         data = objects;

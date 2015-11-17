@@ -2,6 +2,8 @@ package com.example.ik.rssnewscollector;
 
 import android.util.Log;
 
+import com.example.ik.rssnewscollector.Item.NewsItem;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -70,10 +72,9 @@ public class HandleXML {
                             try {
                                 newItem.setImage(text.substring(text.indexOf("http://"), text.indexOf("\">")));
                             } catch (Exception e) {
-                                Log.e("Parser","Failed to add image link");
+                                Log.e("MyLogs","Failed to add image link");
                             }
-                            Log.i("Parser", "image for " + newItem.getTitle() + " added");
-                            text = GetImagesAndVideoFromContent(text);
+                            Log.i("MyLogs", "image for " + newItem.getTitle() + " added");
                             newItem.setContent(text);
                         }
 
@@ -95,34 +96,6 @@ public class HandleXML {
                 e.printStackTrace();
         }
 
-    }
-
-    // Говнокод
-    private String GetImagesAndVideoFromContent(String content) {
-        String[] strings = new String[99];
-        strings = content.split("<p><a href=\"");
-
-        String[] stringsVideo = new String[50];
-        stringsVideo = content.split("<p><iframe");
-
-
-        for(int i = 1; i <= strings.length - 1; i++) {
-            String oldText = "<p><a href=\"" + strings[i].substring(0, strings[i].indexOf("</p>") + "</p>".length());
-            //content = content.replace(oldText, "{image_placeholder" + i + "}");
-            try {
-                if(newItem.getTextImages() == null)
-                    newItem.setTextImages(new ArrayList<String>());
-                newItem.addTextImages(oldText.substring(oldText.indexOf("http://"), oldText.indexOf("\">")));
-            } catch (Exception e) {
-                Log.e("Parser","Failed to add image link");
-            }
-        }
-
-        //for(int i = 1; i <= stringsVideo.length - 1; i++)
-            //content = content.replace("<p><iframe" + stringsVideo[i].substring(0, stringsVideo[i].indexOf("</iframe></p>") + "</iframe></p>".length()),
-                    //"{video_placeholder" + i + "}");
-
-        return content;
     }
 
     public void fetchXML() {
