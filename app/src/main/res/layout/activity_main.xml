@@ -9,11 +9,19 @@
     android:transitionGroup="true"
     android:background="#949494">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/listview_refresher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
     <ListView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/listview"
         tools:listitem="@layout/news_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.ik.rssnewscollector.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView newsItems;
     ArrayList<NewsItem> items;
+    SwipeRefreshLayout listviewRefresher;
 
     private String androidInsider = "http://androidinsider.ru/feed";
     private String itcUA = "http://feeds.feedburner.com/itc-ua";
@@ -46,7 +48,26 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = this;
 
+        listviewRefresher = (SwipeRefreshLayout) findViewById(R.id.listview_refresher);
+        listviewRefresher.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                listviewRefresher.setRefreshing(true);
+                Rss2Parser parser = new Rss2Parser(androidInsider, getCallback());
+                parser.parseAsync();
+                listviewRefresher.setRefreshing(false);
+            }
+        });
+
         newsItems = (ListView) findViewById(R.id.listview);
+
+        if (savedInstanceState != null){
+            items = savedInstanceState.getParcelableArrayList(STATE_NEWS);
+            Refresh(items);
+        } else {
+            Rss2Parser parser = new Rss2Parser(androidInsider, getCallback());
+            parser.parseAsync();
+        }
 
         /*if (savedInstanceState != null){
             items = savedInstanceState.getParcelableArrayList(STATE_NEWS);
@@ -55,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
         GetNews();*/
 
-        Rss2Parser parser = new Rss2Parser(androidInsider, getCallback());
-        parser.parseAsync();
+
     }
 
     @Override
@@ -71,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
-
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -81,43 +101,21 @@ public class MainActivity extends AppCompatActivity {
                 /*
                 ParseXML(androidInsider);
                 GetNews();
-                */
+                
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    */
     private Rss2ParserCallback getCallback(){
         if(mCallback == null){
             mCallback = new Rss2ParserCallback() {
 
                 @Override
                 public void onFeedParsed(List<NewsItem> items) {
-                    for(int i = 0; i < items.size(); i++){
-                        Log.d("Rss2ParserDemo", "Title: " + items.get(i).getTitle());
-                        Log.d("Rss2ParserDemo", "Image: " + (items.get(i).getImage() == null? "" : items.get(i).getImage()));
-                        Log.d("Rss2ParserDemo", "Source: " + (items.get(i).getSource() == null? "" : items.get(i).getSource()));
-                        Log.d("Rss2ParserDemo", "Link: " + items.get(i).getLink());
-                        Log.d("Rss2ParserDemo", "Description: " + items.get(i).getDescription());
-                        Log.d("Rss2ParserDemo", "Content: " + items.get(i).getContent());
-                        Log.d("Rss2ParserDemo", "Date: " + items.get(i).getDate());
-                        Log.d("Rss2ParserDemo", "--------------------------------------------------------------------");
-                    }
-
-                    newsItems.setAdapter(new NewsAdapter(MainActivity.this,R.layout.activity_main, items));
-                    newsItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapter, View v, int position,
-                                                long arg3) {
-                            NewsItem item = (NewsItem) adapter.getItemAtPosition(position);
-
-                            if(item.getContent() != null)
-                                AppNewsReview(item);
-                            else
-                                WebSiteNewsReview(item);
-                        }
-                    });
+                    MainActivity.this.items = (ArrayList)items;
+                    Refresh(items);
                 }
 
                 @Override
@@ -128,6 +126,33 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return mCallback;
+    }
+
+    private void Refresh(List<NewsItem> items) {
+        for(int i = 0; i < items.size(); i++){
+            Log.d("Rss2ParserDemo", "Title: " + items.get(i).getTitle());
+            Log.d("Rss2ParserDemo", "Image: " + (items.get(i).getImage() == null? "" : items.get(i).getImage()));
+            Log.d("Rss2ParserDemo", "Source: " + (items.get(i).getSource() == null? "" : items.get(i).getSource()));
+            Log.d("Rss2ParserDemo", "Link: " + items.get(i).getLink());
+            Log.d("Rss2ParserDemo", "Description: " + items.get(i).getDescription());
+            Log.d("Rss2ParserDemo", "Content: " + items.get(i).getContent());
+            Log.d("Rss2ParserDemo", "Date: " + items.get(i).getDate());
+            Log.d("Rss2ParserDemo", "--------------------------------------------------------------------");
+        }
+
+        newsItems.setAdapter(new NewsAdapter(MainActivity.this,R.layout.activity_main, items));
+        newsItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View v, int position,
+                                    long arg3) {
+                NewsItem item = (NewsItem) adapter.getItemAtPosition(position);
+
+                if(item.getContent() != null)
+                    AppNewsReview(item);
+                else
+                    WebSiteNewsReview(item);
+            }
+        });
     }
 
     private void GetNews() {

@@ -8,12 +8,15 @@
 
     <ImageView
         android:id="@+id/itemImage"
+        android:maxWidth="110dp"
+        android:maxHeight="75dp"
         android:layout_width="110dp"
         android:layout_height="75dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
-        android:src="@drawable/itc" />
+        android:layout_marginBottom="2dip"
+        android:layout_marginTop="2dip"
+        android:src="@drawable/itc"
+        />
 
     <TextView
         android:id="@+id/itemTitle"
